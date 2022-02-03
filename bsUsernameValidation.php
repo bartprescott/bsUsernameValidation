@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package bsUsernameValidation
  */
@@ -30,25 +31,24 @@ Text Domain: bsUsernameValidation
 */
 
 // Make sure we don't expose any info if called directly
-if ( !function_exists( 'add_action' ) ) {
+if (!function_exists('add_action')) {
 	echo 'Hi there!  I\'m just a plugin, not much I can do when called directly.';
 	exit;
 }
 
-define( 'BSUNV__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define('BSUNV__PLUGIN_DIR', plugin_dir_path(__FILE__));
 
-((WP_DEBUG === false) || require_once( BSUNV__PLUGIN_DIR . 'bsDebug.php' ));
+((WP_DEBUG === false) || require_once(BSUNV__PLUGIN_DIR . 'bsDebug.php'));
 
-function bp_validate_username( $valid, $username ) {
+function bp_validate_username($valid, $username)
+{
 	((WP_DEBUG === false) || trace_entry(__FUNCTION__, $valid, $username));
-	if (preg_match('/[@!#$£%^&*()<>?\|\/}{~:\[\]]/', $username))
-	{
+	if (preg_match('/[@!#$£%^&*()<>?\|\/}{~:\[\]]/', $username)) {
 		// one or more of the 'special characters' found in $username
-        ((WP_DEBUG === false) || trace_value(__FUNCTION__, $username, 'contains invalid characters.'));
+		((WP_DEBUG === false) || trace_value(__FUNCTION__, $username, 'contains invalid characters.'));
 		$valid = false;
 	}
-	((WP_DEBUG === false) || trace_exit(__FUNCTION__, $valid ));
+	((WP_DEBUG === false) || trace_exit(__FUNCTION__, $valid));
 	return $valid;
 }
-add_filter( 'validate_username', 'bp_validate_username', 10, 2 );
-
+add_filter('validate_username', 'bp_validate_username', 10, 2);

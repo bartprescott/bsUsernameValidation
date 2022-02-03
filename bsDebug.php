@@ -21,76 +21,78 @@ License: GPLv3
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+
 /**
  * Add debug message support
  */
 if (!function_exists('trace_value')) {
-    function trace_value($func, ...$logVals)  {
-        if (true === WP_DEBUG) {
-			$logvalCount=count($logVals);
-			$logmessage='';
-            if ($logvalCount) {
-				foreach ($logVals as $logval) {
-					if (is_bool($logval)) {
-						$logmessage=$logmessage.($logval ? 'true' : 'false');
-					} else if (is_array($logval) || is_object($logval)) {
-                		$logmessage=$logmessage.print_r($logval, true);
-	            	} else {
-    	            	$logmessage=$logmessage.$logval;
-        	    	}
-					$logvalCount--;
-					if ($logvalCount > 0) {
-						$logmessage=$logmessage.', ';
-					}
-				}
-			}
-			error_log('	'.$logmessage.' //('.$func.')');
-        }
-    }
-}
-
-if (!function_exists('trace_entry')) {
-    function trace_entry($func, ...$logVals)  {
-        if (true === WP_DEBUG) {
-			$logvalCount=count($logVals);
-			$logmessage='';
+	function trace_value($func, ...$logVals)
+	{
+		if (true === WP_DEBUG) {
+			$logvalCount = count($logVals);
+			$logmessage = '';
 			if ($logvalCount) {
 				foreach ($logVals as $logval) {
 					if (is_bool($logval)) {
-						$logmessage=$logmessage.($logval ? 'true' : 'false');
+						$logmessage = $logmessage . ($logval ? 'true' : 'false');
 					} else if (is_array($logval) || is_object($logval)) {
-                		$logmessage=$logmessage.print_r($logval, true);
-	            	} else {
-    	            	$logmessage=$logmessage.$logval;
-        	    	}
+						$logmessage = $logmessage . print_r($logval, true);
+					} else {
+						$logmessage = $logmessage . $logval;
+					}
 					$logvalCount--;
 					if ($logvalCount > 0) {
-						$logmessage=$logmessage.', ';
+						$logmessage = $logmessage . ', ';
 					}
 				}
 			}
-			error_log($func.'( '.$logmessage.' ) {');
-        }
-    }
+			error_log('	' . $logmessage . ' //(' . $func . ')');
+		}
+	}
+}
+
+if (!function_exists('trace_entry')) {
+	function trace_entry($func, ...$logVals)
+	{
+		if (true === WP_DEBUG) {
+			$logvalCount = count($logVals);
+			$logmessage = '';
+			if ($logvalCount) {
+				foreach ($logVals as $logval) {
+					if (is_bool($logval)) {
+						$logmessage = $logmessage . ($logval ? 'true' : 'false');
+					} else if (is_array($logval) || is_object($logval)) {
+						$logmessage = $logmessage . print_r($logval, true);
+					} else {
+						$logmessage = $logmessage . $logval;
+					}
+					$logvalCount--;
+					if ($logvalCount > 0) {
+						$logmessage = $logmessage . ', ';
+					}
+				}
+			}
+			error_log($func . '( ' . $logmessage . ' ) {');
+		}
+	}
 }
 
 if (!function_exists('trace_exit')) {
-    function trace_exit($func, $logval=null)  {
-        if (true === WP_DEBUG) {
-            if (!is_null($logval)) {
+	function trace_exit($func, $logval = null)
+	{
+		if (true === WP_DEBUG) {
+			if (!is_null($logval)) {
 				if (is_bool($logval)) {
-					$logmessage=($logval ? 'true' : 'false');
+					$logmessage = ($logval ? 'true' : 'false');
 				} else if (is_array($logval) || is_object($logval)) {
-                	$logmessage=print_r($logval, true);
-	            } else {
-    	            $logmessage=$logval;
-        	    }
+					$logmessage = print_r($logval, true);
+				} else {
+					$logmessage = $logval;
+				}
 			} else {
-				$logmessage='';
+				$logmessage = '';
 			}
-			error_log('} return( '.$logmessage.' ) //('.$func.')');
-        }
-    }
+			error_log('} return( ' . $logmessage . ' ) //(' . $func . ')');
+		}
+	}
 }
-
-
